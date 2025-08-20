@@ -91,6 +91,68 @@ streamlit run app.py
 
 ---
 
+## Hosting on AWS EC2
+
+Want to make your chatbot accessible remotely? Here’s how to deploy it on AWS EC2:
+
+1. **Launch an EC2 Instance**
+ - Choose an Ubuntu or preferred Linux AMI.
+ - Select an instance type with enough RAM/CPU (t2.medium or larger is recommended).
+ - During setup, open inbound ports `8501` (Streamlit) and `11434` (Ollama API) to your IP address/security group.
+
+2. **Connect to EC2**
+ ```
+ ssh -i <your-key.pem> ubuntu@<your-ec2-public-ip>
+ ```
+
+3. **Install System Dependencies**
+ ```
+ sudo apt update
+ sudo apt install -y python3-pip python3-venv
+ ```
+
+4. **Install Ollama**
+ ```
+ curl -fsSL https://ollama.com/install.sh | sh
+ sudo systemctl start ollama
+ ```
+
+5. **Download the LLM Model**
+ ```
+ ollama pull llama2:latest
+ ```
+
+6. **Upload/Clone Your Project**
+ - Use `scp`, `git`, or your preferred method to transfer `app.py` and project files.
+
+7. **Set Up Python Virtual Environment**
+ ```
+ python3 -m venv local-llm-bot-app-env
+ source local-llm-bot-app-env/bin/activate
+ pip install streamlit requests
+ ```
+
+8. **Run Ollama Server**
+ ```
+ ollama run llama2:latest
+ ```
+
+9. **Run Streamlit App**
+ ```
+ streamlit run app.py --server.address 0.0.0.0
+ ```
+ - This allows access using the EC2 public IP.
+
+10. **Access the App Remotely**
+ - Open `http://<your-ec2-public-ip>:8501` in your browser.
+ - If access issues occur, verify EC2 security group rules for the required ports.
+
+11. **Production Tips**
+ - Use `tmux`, `screen`, or `systemd` to keep applications running after disconnecting SSH.
+ - (Optional) Set up a reverse proxy such as Nginx for SSL or custom domains.
+
+---
+
 ## License
 
 This project is open for personal use and customization.
