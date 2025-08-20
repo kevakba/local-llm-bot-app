@@ -39,7 +39,7 @@ From your **project folder**, create and activate the virtual environment named 
 ```
 
 python -m venv local-llm-bot-app-env
-source local-llm-bot-app-env/bin/activate   \# On Windows: local-llm-bot-app-env\Scripts\activate
+source local-llm-bot-app-env/bin/activate
 
 ```
 
@@ -70,6 +70,7 @@ streamlit run app.py
 4. Open the URL shown in the terminal (default: http://localhost:8501) in your web browser.
 5. Start chatting with your locally hosted LLM!
 
+![alt text](image.png)
 ---
 
 ## How It Works
